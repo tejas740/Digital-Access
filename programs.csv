@@ -1,0 +1,5 @@
+name,category,provider,zip,eligibility,link,lat,lon
+Affordable Connectivity Program,Internet,FCC,11201,Income-based,https://www.fcc.gov/acp,40.694,-73.991
+Community Tech Workshops,Training,Brooklyn Public Library,11201,Open to residents,https://www.bklynlibrary.org/events,40.6945,-73.9918
+Device Donation Program,Devices,NYC Nonprofit,10001,Low-income households,https://example.org/devices,40.7505,-73.9965
+Neighborhood Computer Classes,Training,Local CBO,10453,All ages welcome,https://example.org/classes,40.853,-73.912
