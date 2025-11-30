@@ -1,0 +1,114 @@
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    color: #555;
+    margin-bottom: 24px;
+}
+
+.search-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.btn {
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background: #1e4ecc;
+}
+
+.results-title {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    font-size: 22px;
+}
+
+.results-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.program-title {
+    font-size: 18px;
+}
+
+.program-meta {
+    color: #666;
+    margin: 4px 0;
+}
+
+.program-provider {
+    font-weight: 500;
+    margin: 4px 0;
+}
+
+.program-elig {
+    margin: 6px 0;
+}
+
+.btn-learn {
+    display: inline-block;
+    margin-top: 8px;
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-learn:hover {
+    text-decoration: underline;
+}
