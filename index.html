@@ -1,66 +1,145 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Digital Access Hub</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <title>Digital Access Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>Digital Access Hub</h1>
-        <p class="subtitle">Find digital access programs in your community</p>
-    </header>
+  <header>
+    <h1>Digital Access Hub</h1>
+    <p class="subtitle">Find digital access programs in your community.</p>
+  </header>
 
-    <div class="search-panel">
-        <div class="form-group">
-            <label for="zip">ZIP Code</label>
-            <input id="zip" placeholder="Enter ZIP">
-        </div>
-
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category">
-                <option value="all">All</option>
-                <option value="Internet">Internet</option>
-                <option value="Training">Training</option>
-                <option value="Devices">Devices</option>
-            </select>
-        </div>
-
-        <button class="btn" onclick="runSearch()">Search</button>
+  <div class="search-panel">
+    <div class="form-group">
+      <label for="zip">ZIP Code</label>
+      <input id="zip" placeholder="Enter ZIP (e.g., 11201)">
     </div>
 
-    <h2 class="results-title">Results</h2>
-    <ul id="results" class="results-list"></ul>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category">
+        <option value="All">All</option>
+        <option value="Internet">Internet</option>
+        <option value="Devices">Devices</option>
+        <option value="Training">Training</option>
+      </select>
+    </div>
+
+    <button class="btn" id="searchBtn">Search</button>
+    <button class="btn secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <h2 class="results-title">Programs</h2>
+  <ul id="results" class="results-list"></ul>
 </div>
 
 <script>
-async function runSearch() {
-    const zip = document.getElementById("zip").value;
-    const category = document.getElementById("category").value;
-    const res = await fetch(`/search?zip=${zip}&category=${category}`);
-    const data = await res.json();
+  // ===== Dataset (no backend needed) =====
+  const PROGRAMS = [
+    {
+      name: "Affordable Connectivity Program",
+      category: "Internet",
+      provider: "FCC",
+      zip: "11201",
+      eligibility: "Income-based households",
+      link: "https://www.fcc.gov/acp"
+    },
+    {
+      name: "Community Tech Workshops",
+      category: "Training",
+      provider: "Brooklyn Public Library",
+      zip: "11201",
+      eligibility: "Open to local residents",
+      link: "https://www.bklynlibrary.org/events"
+    },
+    {
+      name: "Device Donation Program",
+      category: "Devices",
+      provider: "NYC Nonprofit",
+      zip: "10001",
+      eligibility: "Low-income families",
+      link: "https://example.org/devices"
+    },
+    {
+      name: "Neighborhood Computer Classes",
+      category: "Training",
+      provider: "Local CBO",
+      zip: "10453",
+      eligibility: "All ages welcome",
+      link: "https://example.org/classes"
+    }
+  ];
 
-    const list = document.getElementById("results");
+  const $ = (sel) => document.querySelector(sel);
+
+  function renderResults(items) {
+    const list = $("#results");
     list.innerHTML = "";
 
-    data.forEach(p => {
-        const item = document.createElement("li");
-        item.className = "card";
-        item.innerHTML = `
-          <strong class="program-title">${p.name}</strong>
-          <div class="program-meta">${p.category} • ZIP ${p.zip}</div>
-          <div class="program-provider">${p.provider}</div>
-          <div class="program-elig">${p.eligibility}</div>
-          <a href="${p.link}" target="_blank" class="btn-learn">Learn more</a>
-        `;
-        list.appendChild(item);
+    if (!items.length) {
+      const li = document.createElement("li");
+      li.className = "card empty";
+      li.textContent = "No programs found. Try another ZIP or set category to All.";
+      list.appendChild(li);
+      return;
+    }
+
+    items.forEach(p => {
+      const li = document.createElement("li");
+      li.className = "card";
+      li.innerHTML = `
+        <strong class="program-title">${p.name}</strong>
+        <div class="program-meta">${p.category} • ZIP ${p.zip}</div>
+        <div class="program-provider">${p.provider}</div>
+        <div class="program-elig">${p.eligibility}</div>
+        <a href="${p.link}" target="_blank" rel="noopener" class="btn-learn">Learn more</a>
+      `;
+      list.appendChild(li);
     });
-}
+  }
+
+  function runSearch() {
+    const zip = $("#zip").value.trim();
+    const cat = $("#category").value;
+
+    let results = PROGRAMS;
+
+    if (zip) {
+      results = results.filter(p => p.zip.startsWith(zip));
+    }
+    if (cat !== "All") {
+      results = results.filter(p => p.category === cat);
+    }
+
+    renderResults(results);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // initial list
+    renderResults(PROGRAMS);
+
+    $("#searchBtn").addEventListener("click", runSearch);
+
+    $("#resetBtn").addEventListener("click", () => {
+      $("#zip").value = "";
+      $("#category").value = "All";
+      $("#zip").focus();
+      renderResults(PROGRAMS);
+    });
+
+    $("#zip").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        runSearch();
+      }
+    });
+  });
 </script>
 
 </body>
-
 </html>
-
